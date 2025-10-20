@@ -7,9 +7,9 @@ const Productos =({agregarProducto} = {}) => {
     const[error, setError] = useState(null);
 
     // Simulamos una llamada a una API para obtener los productos
-   
+
     useEffect(() => {
-         const URL = 'https://68f562c46b852b1d6f140202.mockapi.io/productos';
+        const URL = 'https://68f562c46b852b1d6f140202.mockapi.io/productos';
         fetch(URL)
             .then((respuesta) => respuesta.json())
             .then((datos) => {

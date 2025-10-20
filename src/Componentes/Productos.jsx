@@ -5,9 +5,12 @@ const Productos =({agregarProducto} = {}) => {
     const [productos, setProductos] = useState([]);
     const[cargando, setCargando] = useState(true);
     const[error, setError] = useState(null);
+
+    // Simulamos una llamada a una API para obtener los productos
+   
     useEffect(() => {
-        // Simulamos una llamada a una API para obtener los productos
-        fetch('https://68f562c46b852b1d6f140202.mockapi.io/productos')
+         const URL = 'https://68f562c46b852b1d6f140202.mockapi.io/productos';
+        fetch(URL)
             .then((respuesta) => respuesta.json())
             .then((datos) => {
                 setProductos(datos);
@@ -18,14 +21,12 @@ const Productos =({agregarProducto} = {}) => {
                 setCargando(false);
             });
     }, []);
-    if (cargando) {
+    if (cargando) 
         return <p>Cargando productos...</p>;
-    }
-
-    if (error) {
+    
+    if (error) 
         return <p>{error}</p>;
-    }
-
+    
     return (
         <>
             <h2>Lista de Productos</h2>
@@ -35,7 +36,7 @@ const Productos =({agregarProducto} = {}) => {
                         {producto.nombre} - {producto.precio}$
                         <img src={producto.imagen} alt={producto.nombre} />
                         <button onClick={()=>agregarProducto(producto)}>Agregar al carrito</button>
-                        <Link to={`/producto/${producto.id}`}>Ver detalles</Link>
+                        <Link to={`/productos/${producto.id}`}>Ver detalles</Link>
                     </li>
                 ))}
             </ul>

@@ -15,8 +15,8 @@ import{Routes, Route} from 'react-router-dom'
 function App() {
   const [carrito, setCarrito] = useState([])
 
-  const agregarProducto = (producto) => {
-    setCarrito([...carrito, producto])
+  const agregarProducto = (agregarProducto) => {
+    setCarrito([...carrito, agregarProducto])
   }
   return (
     <>
@@ -25,10 +25,10 @@ function App() {
       <Routes>
         <Route path='/' element={ <Inicio />} />
         <Route path='/contacto' element={ <Contacto />} />
+        <Route path='/productos' element={ <Productos agregarProducto={agregarProducto} />} />
+        <Route path='*' element={<Main />} />
       </Routes>
-      <Main />
-      <Productos agregarProducto={agregarProducto} />
-      <Carrito />
+      <Carrito productosEnCarrito={carrito} productosEliminados={setCarrito} />
       <Gallery />
       <Footer />
     </>

@@ -1,23 +1,15 @@
-import { useState } from "react";
-
-
-const Carrito = () => {
-    const [productos, setProductos] = useState([]);
-    const [carrito, setCarrito] = useState([]);
-    const agregarProducto = (producto) => {
-        setCarrito([...carrito, producto]);
-    };
-
-    return (
+const Carrito = ({productosEnCarrito, productosEliminados}) => {
+        return (
         <div>
             <h2>Productos en el Carrito</h2>
-            <ul>
-                {carrito.map((producto) => (
-                    <li key={producto.id}>
-                        <Producto producto={producto} />
-                    </li>
-                ))}
-            </ul>
+            {productosEnCarrito.map((producto, indice) => (
+                <div key={indice}>
+                    <img src={producto.image} alt={producto.nombre} height={80} width={80} />
+                    <p>{producto.nombre} : {producto.precio}$</p>
+                    <button onClick={() => productosEliminados(indice)}>Eliminar del Carrito</button>
+                </div>
+            ))}    
+                    
         </div>
     );
 };

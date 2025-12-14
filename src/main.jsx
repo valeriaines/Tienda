@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "../Context/AuthContext";
 import { CarritoProvider } from "../Context/CarritoContext";
-import { ProductoProvider } from "./Context/ProductoContext";
+import { ProductoProvider } from "../Context/ProductoContext";
 
 import "./index.css";
 

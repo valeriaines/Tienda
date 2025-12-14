@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FormProducto from "./FormProducto";
-import { useProductoContext } from "../Context/ProductoContext";
+import { useProductoContext } from "./Context/ProductoContext";
 
 const GestionProducto = () => {
   const { productos, eliminarProducto } = useProductoContext();

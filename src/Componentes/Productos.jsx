@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useProductoContext } from "../Context/ProductoContext";
-import { useCarritoContext } from "../Context/CarritoContext";
+import { useProductoContext } from "./Context/ProductoContext";
+import { useCarritoContext } from "./Context/CarritoContext";
 
 const Productos = () => {
   const { productos } = useProductoContext();

@@ -2,9 +2,9 @@ import './App.css'
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 // Importaciones de Providers (Ajusta las rutas si son diferentes)
-import { AuthProvider } from './context/AuthContext'; 
-import { CarritoProvider } from './context/CarritoContext'; 
-import { ProductoProvider } from './context/ProductoContext'; 
+import { AuthProvider } from './Context/AuthContext'; 
+import { CarritoProvider } from './Context/CarritoContext'; 
+import { ProductoProvider } from './Context/ProductoContext'; 
 
 // Importación de Componentes
 import Header from './Componentes/Header.jsx'

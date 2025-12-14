@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useProductoContext } from "../Context/ProductoContext";
+import { useProductoContext } from "./Context/ProductoContext";
 
 const FormProducto = ({ productoInicial, modo, onCerrar }) => {
   const { agregarProducto, editarProducto } = useProductoContext();

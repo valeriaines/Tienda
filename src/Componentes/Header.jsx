@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthContext } from "./Context/AuthContext";
-import { useCarritoContext } from "./Context/CarritoContext";
+import { useCarritoContext } from "../Context/CarritoContext";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 
 const Header = () => {

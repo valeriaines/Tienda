@@ -27,9 +27,15 @@ export const CarritoProvider = ({ children }) => {
   };
 
   // Eliminar producto por índice
-  const eliminarDelCarrito = (indiceAEliminar) => {
+  const eliminarDelCarrito = (id) => {
     setCarrito((prevCarrito) =>
-      prevCarrito.filter((_, indice) => indice !== indiceAEliminar)
+      prevCarrito
+        .map((producto)=>
+          producto.id === id
+        ? { ...producto,cantidad: producto.cantidad - 1}
+        :producto
+        )
+        .filter((producto) => producto.cantidad > 0)
     );
   };
 

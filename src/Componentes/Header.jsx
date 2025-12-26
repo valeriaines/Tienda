@@ -5,68 +5,121 @@ import { useCarritoContext } from "../Context/CarritoContext";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 
 const Header = () => {
-  const { totalProductos } = useCarritoContext(); // Ahora usamos totalProductos
+  const { totalProductos } = useCarritoContext();
   const { isLoggedIn, isAdmin, logout } = useAuthContext();
   const navigate = useNavigate();
   const [menuAbierto, setMenuAbierto] = useState(false);
 
+  const cerrarMenu = () => setMenuAbierto(false);
+
   const handleLogout = () => {
     logout();
+    cerrarMenu();
     navigate("/");
   };
 
   return (
     <header className="bg-blue-600 text-white sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+
         {/* Logo */}
-        <h1 className="text-2xl font-bold">
-          <Link to="/" className="hover:text-gray-200">Mi Tienda</Link>
+        <h1 className="text-2xl font-bold whitespace-nowrap">
+          <Link to="/" onClick={cerrarMenu}>
+            Mi Tienda
+          </Link>
         </h1>
 
-        {/* Botón menú mobile */}
+        {/* Botón hamburguesa (SOLO MOBILE) */}
         <button
-          className="sm:hidden text-white"
-          aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
+          className="md:hidden text-2xl"
           onClick={() => setMenuAbierto(!menuAbierto)}
+          aria-label="Abrir menú"
         >
           {menuAbierto ? <FaTimes /> : <FaBars />}
         </button>
 
-        {/* Navegación */}
-        <nav className={`flex-col sm:flex sm:flex-row sm:items-center sm:gap-6 absolute sm:static top-16 left-0 w-full sm:w-auto bg-blue-600 sm:bg-transparent transition-all duration-300 ${menuAbierto ? "flex" : "hidden"}`}>
-          <Link to="/" className="block px-4 py-2 hover:text-gray-200">Inicio</Link>
-          <Link to="/productos" className="block px-4 py-2 hover:text-gray-200">Productos</Link>
-          <Link to="/contacto" className="block px-4 py-2 hover:text-gray-200">Contacto</Link>
+        {/* Menú desktop */}
+        <nav className="hidden md:flex items-center gap-6">
+          <Link to="/" className="hover:text-gray-200">Inicio</Link>
+          <Link to="/productos" className="hover:text-gray-200">Productos</Link>
+          <Link to="/contacto" className="hover:text-gray-200">Contacto</Link>
+
           {isLoggedIn && isAdmin && (
-            <Link to="/admin" className="block px-4 py-2 hover:text-gray-200">Admin</Link>
+            <Link to="/admin" className="hover:text-gray-200">Admin</Link>
           )}
+
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="px-4 py-2 m-2 sm:m-0 border border-white rounded hover:bg-white hover:text-blue-600 transition"
-              aria-label="Cerrar sesión"
+              className="h-10 px-4 border border-white rounded hover:bg-white hover:text-blue-600 transition"
             >
-              Cerrar Sesión
+              Cerrar sesión
             </button>
           ) : (
             <Link
               to="/login"
-              className="px-4 py-2 m-2 sm:m-0 border border-white rounded hover:bg-white hover:text-blue-600 transition"
-              aria-label="Iniciar sesión"
+              className="h-10 px-4 flex items-center border border-white rounded hover:bg-white hover:text-blue-600 transition"
             >
-              Iniciar Sesión
+              Iniciar sesión
             </Link>
           )}
-          <Link
-            to="/carrito"
-            className="flex items-center gap-1 px-4 py-2 hover:text-gray-200"
-            aria-label={`Ir al carrito, ${totalProductos} productos`}
-          >
+
+          <Link to="/carrito" className="flex items-center gap-2">
             <FaShoppingCart />
-            <span className="bg-red-500 text-white rounded-full px-2 text-sm">{totalProductos}</span>
+            <span className="bg-red-500 rounded-full px-2 text-sm">
+              {totalProductos}
+            </span>
           </Link>
         </nav>
       </div>
+
+      {/* Menú MOBILE desplegable */}
+      {menuAbierto && (
+        <div className="md:hidden bg-blue-600 px-4 pb-4 flex flex-col gap-3">
+          <Link to="/" onClick={cerrarMenu}>Inicio</Link>
+          <Link to="/productos" onClick={cerrarMenu}>Productos</Link>
+          <Link to="/contacto" onClick={cerrarMenu}>Contacto</Link>
+
+          {isLoggedIn && isAdmin && (
+            <Link to="/admin" onClick={cerrarMenu}>Admin</Link>
+          )}
+
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="mx-4 sm:mx-0 px-3 py-2 border border-white rounded
+              whitespace-nowrap text-sm
+              flex-shrink-0
+              hover:bg-white hover:text-blue-600 transition"
+              aria-label="Cerrar sesión"
+            >
+              Cerrar sesión
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              onClick={cerrarMenu}
+              className="mx-4 sm:mx-0 px-3 py-2 border border-white rounded
+              whitespace-nowrap text-sm
+              flex-shrink-0
+              hover:bg-white hover:text-blue-600 transition"
+            >
+              Iniciar sesión
+            </Link>
+          )}
+
+          <Link
+            to="/carrito"
+            onClick={cerrarMenu}
+            className="flex items-center gap-2"
+          >
+            <FaShoppingCart />
+            <span className="bg-red-500 rounded-full px-2 text-sm">
+              {totalProductos}
+            </span>
+          </Link>
+        </div>
+      )}
     </header>
   );
 };

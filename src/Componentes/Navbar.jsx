@@ -8,9 +8,15 @@ const Navbar = () => {
     <nav className="bg-gray-100 shadow-md p-4">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* Logo o Nombre de la Tienda */}
-        <Link to="/" className="text-2xl font-bold text-gray-900 hover:text-blue-600">
+        <h1 className="text-xl sm:text-2xl font-bold truncate">
+        <Link 
+          to="/" 
+          
+          className="hover:text-blue-600 whitespace-nowrap"
+          >
           MiTienda
         </Link>
+        </h1>
 
         {/* Menú */}
         <ul className="flex gap-6">

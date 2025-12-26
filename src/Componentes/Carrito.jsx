@@ -1,89 +1,99 @@
-import { useContext } from 'react';
-import { CarritoContext } from '../Context/CarritoContext';
+import { useContext } from "react";
+import { CarritoContext } from "../Context/CarritoContext";
+import { Link } from "react-router-dom";
 
 const Carrito = () => {
-    const {
-        carrito,
-        eliminarDelCarrito,
-        vaciarCarrito,
-        totalProductos,
-        totalPrecio
-    } = useContext(CarritoContext);
+  const {
+    carrito,
+    eliminarDelCarrito,
+    vaciarCarrito,
+    totalProductos,
+    totalPrecio,
+  } = useContext(CarritoContext);
 
-    if (carrito.length === 0) {
-        return (
-            <div style={{ padding: '20px' }}>
-                <h2>🛒 El carrito está vacío</h2>
-                <p>Agregá productos para comenzar tu compra.</p>
-            </div>
-        );
-    }
+  return (
+    <div className="max-w-5xl mx-auto p-6">
+      {/* 🔙 Volver */}
+      <Link
+        to="/productos"
+        className="inline-block mb-6 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
+      >
+        ← Volver a productos
+      </Link>
 
-    const confirmarVaciar = () => {
-        if (confirm("¿Estás seguro de que deseas vaciar el carrito?")) {
-            vaciarCarrito();
-        }
-    };
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        🛒 Carrito de compras
+      </h2>
 
-    return (
-        <div style={{ padding: '20px' }}>
-            <h2>Carrito de compras</h2>
+      {/* 🟡 Carrito vacío */}
+      {carrito.length === 0 ? (
+        <p className="text-center text-gray-500">
+          El carrito está vacío. Agregá productos para comenzar tu compra.
+        </p>
+      ) : (
+        <>
+          {/* 📦 Productos */}
+          <ul className="space-y-4">
+            {carrito.map((producto, index) => (
+              <li
+                key={index}
+                className="flex flex-col sm:flex-row gap-4 items-center bg-white p-4 rounded-lg shadow"
+              >
+                {/* Imagen */}
+                <img
+                  src={producto.imagen}
+                  alt={producto.nombre}
+                  className="w-24 h-24 object-cover rounded"
+                />
 
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-                {carrito.map((producto, index) => (
-                    <li
-                        key={index}
-                        style={{
-                            display: 'flex',
-                            gap: '15px',
-                            alignItems: 'center',
-                            border: '1px solid #ccc',
-                            marginBottom: '10px',
-                            padding: '10px',
-                            borderRadius: '6px'
-                        }}
-                    >
-                        {/* Imagen del producto */}
-                        <img
-                            src={producto.imagen}
-                            alt={producto.nombre}
-                            style={{
-                                width: '90px',
-                                height: '90px',
-                                objectFit: 'cover',
-                                borderRadius: '5px'
-                            }}
-                        />
+                {/* Info */}
+                <div className="flex-1 text-center sm:text-left">
+                  <h4 className="font-semibold text-lg">
+                    {producto.nombre}
+                  </h4>
+                  <p className="text-gray-600 text-sm">
+                    {producto.descripcion}
+                  </p>
+                  <p className="mt-1">Precio: ${producto.precio}</p>
+                  <p>Cantidad: {producto.cantidad}</p>
+                  <p className="font-semibold mt-1">
+                    Subtotal: ${producto.precio * producto.cantidad}
+                  </p>
+                </div>
 
-                        <div>
-                            <h4>{producto.nombre}</h4>
-                            <p>{producto.descripcion}</p>
-                            <p>Precio unitario: ${producto.precio}</p>
-                            <p>Cantidad: {producto.cantidad}</p>
-                            <p>
-                                <strong>
-                                    Subtotal: ${producto.precio * producto.cantidad}
-                                </strong>
-                            </p>
+                {/* Botón eliminar */}
+                <button
+                  onClick={() => eliminarDelCarrito(index)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
+                  Eliminar
+                </button>
+              </li>
+            ))}
+          </ul>
 
-                            <button onClick={() => eliminarDelCarrito(index)}>
-                                Eliminar
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+          {/* 📊 Resumen */}
+          <div className="mt-8 bg-gray-100 p-6 rounded-lg shadow">
+            <p className="text-lg">
+              <strong>Total de productos:</strong> {totalProductos}
+            </p>
+            <p className="text-xl font-bold mt-2">
+              Total a pagar: ${totalPrecio}
+            </p>
 
-            <hr />
-
-            <p><strong>Total de productos:</strong> {totalProductos}</p>
-            <p><strong>Total a pagar:</strong> ${totalPrecio}</p>
-
-            <button onClick={confirmarVaciar}>
-                Vaciar carrito
+            <button
+              onClick={() => {
+                if (confirm("¿Vaciar carrito?")) vaciarCarrito();
+              }}
+              className="mt-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
+            >
+              Vaciar carrito
             </button>
-        </div>
-    );
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Carrito;

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useProductoContext } from "../Context/ProductoContext";
 import { useCarritoContext } from "../Context/CarritoContext";
@@ -55,12 +56,23 @@ const Productos = () => {
                   className="w-full h-48 object-cover mb-2 rounded"
                 />
               )}
+              {/* Boton ver detalle */}
+              <Link
+                to={`/productos/${producto.id}`}
+                className="block text-center text-blue-600 hover:underline mb-3"
+              >
+                Ver detalles
+              </Link>
+
+              {/* Botón agregar al carrito */}
+
               <button
                 onClick={() => agregarAlCarrito(producto)}
-                className="px-4 py-2 mt-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
               >
                 Agregar al carrito
               </button>
+              
             </div>
           ))}
         </div>

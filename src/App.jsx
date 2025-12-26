@@ -28,6 +28,8 @@ function App() {
                     
                     <Header /> {/* Header necesita Auth y Carrito Context */}
 
+                    <main className="pt-16 relative z-0 min-h-screen">
+
                     <Routes>
                         <Route path='/' element={<Inicio />} />
                         <Route path='/contacto' element={<Contacto />} />
@@ -53,6 +55,7 @@ function App() {
                             }
                         />
                     </Routes>
+                    </main>
                     
                     <Footer /> 
 

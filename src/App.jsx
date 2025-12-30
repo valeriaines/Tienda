@@ -15,6 +15,7 @@ import Carrito from './Componentes/Carrito.jsx'
 import Footer from './Componentes/Footer.jsx'
 import Login from './pages/Login.jsx'
 import Admin from './Componentes/Admin.jsx'
+import Checkout from './pages/Checkout.jsx';
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
 import RutaProtegida from './Componentes/RutaProtegida.jsx'
 
@@ -36,6 +37,7 @@ function App() {
                         <Route path='/productos' element={<Productos />} />
                         <Route path='/productos/:id' element={<ProductoDetalle />} />
                         <Route path='/login' element={<Login />} />
+                        <Route path='/checkout' element={<Checkout />} />
                         
                         {/* Rutas Protegidas */}
                         <Route

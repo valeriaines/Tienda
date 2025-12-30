@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useProductoContext } from "../Context/ProductoContext";
 import { useCarritoContext } from "../Context/CarritoContext";
+import PageWrapper from "./PagesWrapper";
+
 
 const Productos = () => {
+  
   const { productos } = useProductoContext();
   const { agregarAlCarrito } = useCarritoContext();
 
@@ -27,7 +30,8 @@ const Productos = () => {
   const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 p-6">
+    <PageWrapper>
+    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow animate-enter">
       {/* Barra de búsqueda */}
       <input
         type="text"
@@ -44,22 +48,41 @@ const Productos = () => {
       {productosFiltrados.length === 0 ? (
         <p className="text-center text-gray-500 italic">No se encontraron productos.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
           {productosPaginados.map((producto) => (
-            <div key={producto.id} className="bg-white p-4 rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-2">{producto.nombre}</h3>
-              <p className="text-gray-700 mb-2">Precio: ${producto.precio}</p>
+            <div key={producto.id} 
+            className="
+              group
+              bg-white p-4 rounded-lg shadow
+              transition-all duration-300 ease-out
+              hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]
+              "
+            >
+              <h2 className="text-2xl font-bold mb-2 animate-fadeIn">{producto.nombre}</h2>
+              <p className="text-xl font-semibold mb-6 animate-fadeIn delay-200">Precio: ${producto.precio}</p>
+              <div className="overflow-hidden rounded">
               {producto.imagen && (
                 <img
                   src={producto.imagen}
                   alt={producto.nombre}
-                  className="w-full h-48 object-cover mb-2 rounded"
+                  className="
+                    w-full h-48 object-cover mb-3
+                    transition-transform duration-500
+                    group-hover:scale-105
+                    group-hover:brightness-110
+                  "
                 />
+              
               )}
+              </div>
               {/* Boton ver detalle */}
               <Link
                 to={`/productos/${producto.id}`}
-                className="block text-center text-blue-600 hover:underline mb-3"
+                className="
+                  block text-center text-blue-600 mb-4 
+                  transition-all duration-200
+                  hover:underline hover:scale-105
+                  "
               >
                 Ver detalles
               </Link>
@@ -68,7 +91,11 @@ const Productos = () => {
 
               <button
                 onClick={() => agregarAlCarrito(producto)}
-                className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                className="
+                  w-full px-4 py-2 bg-blue-600 text-white rounded 
+                  transition-all duration-200 
+                  hover:bg-blue-700 hover:scale-[1.05]
+                  active:scale-95"
               >
                 Agregar al carrito
               </button>
@@ -97,7 +124,10 @@ const Productos = () => {
         </div>
       )}
     </div>
+    </PageWrapper>
   );
+  
+
 };
 
 export default Productos;

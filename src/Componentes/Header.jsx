@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "../Context/AuthContext";
 import { useCarritoContext } from "../Context/CarritoContext";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
@@ -9,6 +9,18 @@ const Header = () => {
   const { isLoggedIn, isAdmin, logout } = useAuthContext();
   const navigate = useNavigate();
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [animarCarrito, setAnimarCarrito] = useState(false);
+  
+  useEffect(() => {
+    if (totalProductos === 0) return;
+
+      setAnimarCarrito(true);
+
+      const timer = setTimeout(() => setAnimarCarrito(false), 300);
+
+    return () => clearTimeout(timer);
+  }, [totalProductos]);
+
 
   const cerrarMenu = () => setMenuAbierto(false);
 
@@ -16,6 +28,7 @@ const Header = () => {
     logout();
     cerrarMenu();
     navigate("/");
+
   };
 
   return (
@@ -64,11 +77,22 @@ const Header = () => {
             </Link>
           )}
 
-          <Link to="/carrito" className="flex items-center gap-2">
-            <FaShoppingCart />
-            <span className="bg-red-500 rounded-full px-2 text-sm">
+          <Link to="/carrito" className="relative flex items-center gap-2">
+            <FaShoppingCart 
+              className={`text-xl transition-transform duration-300
+                ${animarCarrito ? "scale-125 rotate-[-10deg]" : "scale-100"}
+                `}
+            />
+            {totalProductos > 0 && (
+            <span 
+              className={`absolute -top-2 -right-3 bg-red-500 text-white rounded-full px-2 text-xs
+                transition-all duration-300
+                ${animarCarrito ? "scale-110" : "scale-100"}
+            `}
+            >
               {totalProductos}
             </span>
+            )}
           </Link>
         </nav>
       </div>
@@ -111,12 +135,24 @@ const Header = () => {
           <Link
             to="/carrito"
             onClick={cerrarMenu}
-            className="flex items-center gap-2"
+            className="relative flex items-center gap-2"
           >
-            <FaShoppingCart />
-            <span className="bg-red-500 rounded-full px-2 text-sm">
+            <FaShoppingCart 
+              className={`text-xl transition-transform duration-300
+                ${animarCarrito ? "scale-125 rotate-[-10deg]" : "scale-100"}
+                `}
+            />
+            {totalProductos > 0 && (
+
+            <span 
+              className={`absolute -top-2 -right-3 bg-red-500 text-white rounded-full px-2 text-xs
+                transition-all duration-300
+                ${animarCarrito ? "scale-110" : "scale-100"}
+              `}
+              >
               {totalProductos}
             </span>
+            )}
           </Link>
         </div>
       )}

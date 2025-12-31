@@ -3,7 +3,40 @@ import { useState } from "react";
 import { useProductoContext } from "../Context/ProductoContext";
 import { useCarritoContext } from "../Context/CarritoContext";
 import PageWrapper from "./PagesWrapper";
+import { motion, AnimatePresence } from "framer-motion";
 
+const containerVariants = {
+  hidden: { opacity: 0},
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12, // tiempo entre cards
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    scale: 0.95,
+    },
+    visible: {
+      opacity: 1,
+      y:0,
+      scale: 1,
+      transition: {
+        duration: 0.35,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const pageVaiants = {
+    initial: { opacity: 0, y: 20 },
+    animate:{ opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 }
+  }
 
 const Productos = () => {
   
@@ -48,18 +81,34 @@ const Productos = () => {
       {productosFiltrados.length === 0 ? (
         <p className="text-center text-gray-500 italic">No se encontraron productos.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
+        <AnimatePresence mode="wait">
+        <motion.div 
+          key={paginaActual}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          transition={{ duration: 0.35, ease: "easeOut"}}
+          >
           {productosPaginados.map((producto) => (
-            <div key={producto.id} 
-            className="
-              group
-              bg-white p-4 rounded-lg shadow
-              transition-all duration-300 ease-out
-              hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]
+            <motion.div 
+              key={producto.id} 
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              className="
+                group bg-white p-4 rounded-lg shadow
+                transition-all duration-300 ease-out
+                hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]
               "
             >
               <h2 className="text-2xl font-bold mb-2 animate-fadeIn">{producto.nombre}</h2>
-              <p className="text-xl font-semibold mb-6 animate-fadeIn delay-200">Precio: ${producto.precio}</p>
+
+              <p className="text-xl font-semibold mb-6">
+                Precio: ${producto.precio}
+                </p>
+
               <div className="overflow-hidden rounded">
               {producto.imagen && (
                 <img
@@ -80,8 +129,7 @@ const Productos = () => {
                 to={`/productos/${producto.id}`}
                 className="
                   block text-center text-blue-600 mb-4 
-                  transition-all duration-200
-                  hover:underline hover:scale-105
+                  hover:underline
                   "
               >
                 Ver detalles
@@ -93,34 +141,44 @@ const Productos = () => {
                 onClick={() => agregarAlCarrito(producto)}
                 className="
                   w-full px-4 py-2 bg-blue-600 text-white rounded 
-                  transition-all duration-200 
-                  hover:bg-blue-700 hover:scale-[1.05]
+                  hover:bg-blue-700 transition
                   active:scale-95"
               >
                 Agregar al carrito
               </button>
               
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
+     </AnimatePresence>
       )}
 
       {/* Paginación */}
       {totalPaginas > 1 && (
         <div className="flex justify-center mt-6 gap-2">
-          {Array.from({ length: totalPaginas }, (_, i) => (
-            <button
+          {Array.from({ length: totalPaginas }, (_, i) => {
+            const isActive = paginaActual === i + 1;
+
+            return (
+
+             <motion.button
               key={i}
               onClick={() => setPaginaActual(i + 1)}
-              className={`px-3 py-1 rounded ${
-                paginaActual === i + 1
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
+              animate={{
+                scale: isActive ? 1.15 : 1,
+                backgroundColor: isActive ? "#2563eb" : "#e5e7eb",
+                color: isActive ? "#ffffff" : "#374151",
+                boxShadow: isActive
+                  ? "0px 6px 14px rgba(37, 99, 235, 0.35)"
+                  : "0px 0px 0px rgba(0,0,0,0)",
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 20}}
+              className="px-3 py-1 rounded font-medium"
             >
               {i + 1}
-            </button>
-          ))}
+            </motion.button>
+            );
+})}
         </div>
       )}
     </div>

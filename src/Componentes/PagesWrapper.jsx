@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const PageWrapper = ({ children }) => {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setVisible(true);
-  }, []);
-
   return (
-    <div
-      className={`transition-all duration-300 ease-out
-        ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}
-      `}
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 

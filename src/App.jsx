@@ -1,6 +1,5 @@
 import './App.css'
-import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 // Importaciones de Providers (Ajusta las rutas si son diferentes)
 import { AuthProvider } from './Context/AuthContext'; 
 import { CarritoProvider } from './Context/CarritoContext'; 
@@ -18,10 +17,13 @@ import Admin from './Componentes/Admin.jsx'
 import Checkout from './pages/Checkout.jsx';
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
 import RutaProtegida from './Componentes/RutaProtegida.jsx'
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
+    const location = useLocation()
     
     return (
+        
         // 1. Envolver toda la aplicación con los Providers
         <AuthProvider> 
             <CarritoProvider> 
@@ -30,33 +32,34 @@ function App() {
                     <Header /> {/* Header necesita Auth y Carrito Context */}
 
                     <main className="pt-16 relative z-0 min-h-screen">
-
-                    <Routes>
-                        <Route path='/' element={<Inicio />} />
-                        <Route path='/contacto' element={<Contacto />} />
-                        <Route path='/productos' element={<Productos />} />
-                        <Route path='/productos/:id' element={<ProductoDetalle />} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/checkout' element={<Checkout />} />
+                        <AnimatePresence mode="wait">
+                            <Routes location={location} key={location.pathname}>
+                                <Route path='/' element={<Inicio />} />
+                                <Route path='/contacto' element={<Contacto />} />
+                                <Route path='/productos' element={<Productos />} />
+                                <Route path='/productos/:id' element={<ProductoDetalle />} />
+                                <Route path='/login' element={<Login />} />
+                                <Route path='/checkout' element={<Checkout />} />
                         
-                        {/* Rutas Protegidas */}
-                        <Route
-                            path='/carrito'
-                            element={
-                                <RutaProtegida>
-                                    <Carrito />
-                                </RutaProtegida>
-                            }
-                        />
-                        <Route
-                            path='/admin'
-                            element={
-                                <RutaProtegida requiereAdmin>
-                                    <Admin />
-                                </RutaProtegida>
-                            }
-                        />
-                    </Routes>
+                                {/* Rutas Protegidas */}
+                                <Route
+                                    path='/carrito'
+                                    element={
+                                        <RutaProtegida>
+                                            <Carrito />
+                                        </RutaProtegida>
+                                    }
+                                />
+                                <Route
+                                    path='/admin'
+                                    element={
+                                        <RutaProtegida requiereAdmin>
+                                            <Admin />
+                                        </RutaProtegida>
+                                    }
+                                />
+                            </Routes>
+                        </AnimatePresence>
                     </main>
                     
                     <Footer /> 

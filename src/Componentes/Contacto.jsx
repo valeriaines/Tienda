@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PageWrapper from './PagesWrapper';
 
 const Contacto = () => {
     const [nombre, setNombre] = useState('');
@@ -23,6 +24,7 @@ const Contacto = () => {
     };
 
     return (
+        <PageWrapper>
         <div className="max-w-lg mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-bold text-center text-blue-600 mb-6 border-b-2 border-blue-400 pb-2">
                 Contáctanos
@@ -67,6 +69,7 @@ const Contacto = () => {
                 pauseOnHover
             />
         </div>
+        </PageWrapper>
     );
 };
 

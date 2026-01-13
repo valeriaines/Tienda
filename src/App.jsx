@@ -31,7 +31,7 @@ function App() {
                     
                     <Header /> {/* Header necesita Auth y Carrito Context */}
 
-                    <main className="pt-16 relative z-0 min-h-screen">
+                    <main className="pt-16 relative z-0 flex-1">
                         <AnimatePresence mode="wait">
                             <Routes location={location} key={location.pathname}>
                                 <Route path='/' element={<Inicio />} />
